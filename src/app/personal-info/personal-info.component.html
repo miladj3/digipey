@@ -1,0 +1,19 @@
+<ng-template [ngIf]="form">
+  <form [formGroup]="form" id="form-container">
+    <div class="container">
+      <legend>Personal Info</legend>
+      <fieldset [class.alert-danger]="(form.get('name')!.touched || form.get('name')!.dirty) && form.get('name')!.hasError('required')">
+        <input placeholder="Your Name" type="text" tabindex="1" formControlName="name">
+        <span class="alert-danger">Name is required</span>
+      </fieldset>
+      <fieldset [class.alert-danger]="(form.get('family')!.touched || form.get('family')!.dirty) && form.get('family')!.hasError('required')">
+        <input placeholder="Your Family" type="text" tabindex="2" formControlName="family">
+        <span class="alert-danger">Family is required</span>
+      </fieldset>
+      <fieldset [class.alert-danger]="(form.get('nationalCode')!.touched || form.get('nationalCode')!.dirty) && form.get('nationalCode')!.hasError('required')">
+        <national-code-input formControlName="nationalCode"></national-code-input>
+        <span class="alert-danger">National Code is required</span>
+      </fieldset>
+    </div>
+  </form>
+</ng-template>

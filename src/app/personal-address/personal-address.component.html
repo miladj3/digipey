@@ -1,0 +1,26 @@
+<ng-template [ngIf]="form">
+  <form [formGroup]="form" id="form-container">
+    <div class="container">
+      <legend>Address Info</legend>
+      <fieldset>
+        <label>select your state:</label>
+        <select formControlName="state" (change)="onChangeState()">
+          <ng-template ngFor [ngForOf]="states" let-state>
+            <option [textContent]="state.provinceName" [value]="state.provinceId"></option>
+          </ng-template>
+        </select>
+      </fieldset>
+      <fieldset>
+        <label>select your city:</label>
+        <select formControlName="city" [disabled]="selectedCities.length === 0">
+          <ng-template ngFor [ngForOf]="selectedCities" let-city>
+            <option [textContent]="city.cityName" [value]="city.cityId"></option>
+          </ng-template>
+        </select>
+      </fieldset>
+      <fieldset>
+        <textarea formControlName="address" placeholder="Type your address here...."></textarea>
+      </fieldset>
+    </div>
+  </form>
+</ng-template>

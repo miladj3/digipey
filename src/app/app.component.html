@@ -1,0 +1,20 @@
+<div class="container">
+  <app-wizard>
+    <app-wizard-step [component]="PersonalInfoComponent" title="Step 1" [isValid]="form.valid" [data]="form" [fieldName]="'form'">
+    </app-wizard-step>
+    <app-wizard-step [component]="UploadComponent" title="Step 2" [isValid]="form.valid" [data]="form" [fieldName]="'form'">
+      please upload your file:
+    </app-wizard-step>
+    <app-wizard-step [component]="PersonalAddressComponent" title="Step 3" [isValid]="form.valid" [data]="form" [fieldName]="'form'">
+    </app-wizard-step>
+    <app-wizard-step title="Step 4">
+      <h1>overview</h1>
+      <p>Step 3 content</p>
+    </app-wizard-step>
+  </app-wizard>
+
+  <div class="btn-group">
+    <button class="btn" type="button" (click)="wizardService.previous()" [disabled]="(wizardService.index$ | async) === 0">Previous</button>
+    <button class="btn" type="button" (click)="wizardService.next()" [disabled]="form.invalid">Next</button>
+  </div>
+</div>
