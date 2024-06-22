@@ -27,7 +27,5 @@ export class WizardDirective extends WizardStep implements OnInit {
     if (this.fieldName && this.data) {
       this.componentRef.instance.form = this.data;
     }
-    queueMicrotask(() => {
-    });
   }
 }

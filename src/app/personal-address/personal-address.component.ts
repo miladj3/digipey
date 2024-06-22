@@ -1,4 +1,4 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
+import {AfterViewInit, Component, OnDestroy, OnInit} from '@angular/core';
 import {FormGroup, Validators} from "@angular/forms";
 import {HttpClient} from "@angular/common/http";
 import {ICity, IState} from "./personal-address.model";
@@ -9,7 +9,7 @@ import {forkJoin} from "rxjs";
   templateUrl: './personal-address.component.html',
   styleUrls: ['./personal-address.component.scss']
 })
-export class PersonalAddressComponent implements OnInit, OnDestroy {
+export class PersonalAddressComponent implements OnInit, AfterViewInit, OnDestroy {
   public form!: FormGroup;
   private cities: Array<ICity> = [];
   public states: Array<IState> = [];
@@ -22,6 +22,11 @@ export class PersonalAddressComponent implements OnInit, OnDestroy {
     }).subscribe(({state, city}) => {
       this.states = state as Array<IState>;
       this.cities = city as Array<ICity>;
+      queueMicrotask(() => {
+        if (this.form.get('state')?.value){
+          this.onChangeState();
+        }
+      })
     });
   }
   public ngOnInit(): void {
@@ -30,6 +35,8 @@ export class PersonalAddressComponent implements OnInit, OnDestroy {
     this.form.get('address')?.setValidators([Validators.required]);
     this.form?.updateValueAndValidity();
   }
+
+  public ngAfterViewInit(): void { }
 
   public onChangeState(): void {
     this.selectedCities = this.cities.filter((city) => city.provinceId === this.form.get('state')?.value);

@@ -1,8 +1,8 @@
 <div class="steps">
   <ng-template ngFor [ngForOf]="steps.toArray()" let-step let-i="index" let-last="last">
-    <div class="steps__step" [class.steps__step--current]="i === wizardService.selectedIndex"
+    <div class="steps__step" style="cursor:pointer;" [class.steps__step--current]="i === wizardService.selectedIndex"
          (click)="showSelectedStep($event, step)">
-      <div class="steps__step-number" [textContent]="i"></div>
+      <div class="steps__step-number" [textContent]="(i + 1)"></div>
       <div class="steps__step-name" [textContent]="step.title"></div>
     </div>
     <ng-template [ngIf]="!last">

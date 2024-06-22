@@ -45,7 +45,6 @@ export class NationalCodeInputComponent implements ControlValueAccessor, OnInit 
   onChange: any = () => {
   };
   onTouch: any = () => {
-    console.log('Something touched me')
   };
 
   writeValue(value: any): void {
@@ -56,7 +55,6 @@ export class NationalCodeInputComponent implements ControlValueAccessor, OnInit 
   }
 
   registerOnTouched(fn: any): void {
-    console.log('Something touched me')
     this.onTouch = fn;
   }
 

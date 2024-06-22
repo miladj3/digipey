@@ -18,23 +18,27 @@ import {Subscription} from "rxjs";
 })
 export class WizardComponent implements AfterContentInit, OnInit, OnDestroy {
   @ContentChildren(WizardStepsComponent) public steps: QueryList<WizardStepsComponent> = new QueryList<WizardStepsComponent>()
-  @Output() public stepChanged: EventEmitter<void> = new EventEmitter<void>();
+  @Output() public stepChanged: EventEmitter<number> = new EventEmitter<number>();
 
   private currentStep!: WizardStep;
+
   private showNextStepWatcher!: Subscription;
   private showPreviousStepWatcher!: Subscription;
+  private goToStepWatcher!: Subscription;
   constructor(public readonly wizardService: WizardService) {
   }
 
   public ngOnInit() {
     this.showNextStepWatcher = this.wizardService.showNextStep$.subscribe(() => this.showNextStep());
     this.showPreviousStepWatcher = this.wizardService.showPreviousStep$.subscribe(() => this.showPreviousStep());
+    this.goToStepWatcher = this.wizardService.goToStepStep$.subscribe((index) => this.goToStep(index));
   }
 
   public ngAfterContentInit() {
     this.steps.forEach((step, index) => {
       step.index = index;
     });
+    this.wizardService.lengthSteps = this.steps.length;
     this.showStep(this.steps.first);
   }
 
@@ -67,7 +71,12 @@ export class WizardComponent implements AfterContentInit, OnInit, OnDestroy {
     this.wizardService.setIndex(selectedStep.index);
     this.currentStep = selectedStep;
     //TODO: this.router.navigate([], { fragment: selectedStep.title, replaceUrl: false });
-    this.stepChanged.emit();
+    this.stepChanged.emit(selectedStep.index);
+  }
+
+  private goToStep(index: number){
+    const step = this.steps.toArray()[index];
+    this.showStep(step);
   }
 
   public ngOnDestroy() {

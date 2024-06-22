@@ -5,6 +5,9 @@ import {BehaviorSubject, Observable, Subject} from 'rxjs';
   providedIn: 'any'
 })
 export class WizardService {
+  private _goToStepSource: Subject<number> = new Subject<number>();
+  public readonly goToStepStep$: Observable<number> = this._goToStepSource.asObservable();
+
   private _showNextStepSource: Subject<void> = new Subject<void>();
   public readonly showNextStep$: Observable<void> = this._showNextStepSource.asObservable();
 
@@ -13,6 +16,8 @@ export class WizardService {
 
   private _indexSource: BehaviorSubject<number> = new BehaviorSubject<number>(0);
   public readonly index$: Observable<number> = this._indexSource.asObservable();
+
+  public lengthSteps: number = 0;
 
   public get selectedIndex(): number{
     return this._indexSource.value;
@@ -23,6 +28,10 @@ export class WizardService {
 
   public previous() {
     this._showPreviousStepSource.next();
+  }
+
+  public goToStep(index: number){
+    this._goToStepSource.next(index);
   }
 
   public setIndex(index: number) {

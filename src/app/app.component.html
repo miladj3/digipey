@@ -1,20 +1,47 @@
 <div class="container">
-  <app-wizard>
-    <app-wizard-step [component]="PersonalInfoComponent" title="Step 1" [isValid]="form.valid" [data]="form" [fieldName]="'form'">
+  <app-wizard (stepChanged)="onStepChange($event)">
+    <app-wizard-step [component]="PersonalInfoComponent" title="Info" [isValid]="form.valid" [data]="form"
+                     [fieldName]="'form'">
     </app-wizard-step>
-    <app-wizard-step [component]="UploadComponent" title="Step 2" [isValid]="form.valid" [data]="form" [fieldName]="'form'">
-      please upload your file:
+    <app-wizard-step [component]="UploadComponent" title="Upload" [isValid]="form.valid" [data]="form"
+                     [fieldName]="'form'">
+      <p class="upload-title">please upload your file:</p>
     </app-wizard-step>
-    <app-wizard-step [component]="PersonalAddressComponent" title="Step 3" [isValid]="form.valid" [data]="form" [fieldName]="'form'">
+    <app-wizard-step [component]="PersonalAddressComponent" title="Address" [isValid]="form.valid" [data]="form"
+                     [fieldName]="'form'">
     </app-wizard-step>
-    <app-wizard-step title="Step 4">
-      <h1>overview</h1>
-      <p>Step 3 content</p>
+    <app-wizard-step title="Review">
+      <div id="review-form">
+        <section>
+          <p>Personal Info</p>
+          <ul>
+            <li><b>Name</b> <span [textContent]="form.get('name')?.value"></span></li>
+            <li><b>Family</b> <span [textContent]="form.get('family')?.value"></span></li>
+            <li><b>National Code</b> <span [textContent]="form.get('nationalCode')?.value"></span></li>
+          </ul>
+        </section>
+        <section>
+          <p>Upload</p>
+          <div>
+            <img [src]="form.get('image')?.value">
+          </div>
+        </section>
+        <section>
+          <p>Address Info</p>
+          <ul>
+            <li><b>State</b> <span [textContent]="form.get('name')?.value"></span></li>
+            <li><b>City</b> <span [textContent]="form.get('name')?.value"></span></li>
+            <li><b>Address</b> <span [textContent]="form.get('name')?.value"></span></li>
+          </ul>
+        </section>
+      </div>
     </app-wizard-step>
   </app-wizard>
 
   <div class="btn-group">
-    <button class="btn" type="button" (click)="wizardService.previous()" [disabled]="(wizardService.index$ | async) === 0">Previous</button>
-    <button class="btn" type="button" (click)="wizardService.next()" [disabled]="form.invalid">Next</button>
+    <button class="btn" type="button" (click)="wizardService.previous()"
+            [disabled]="(wizardService.index$ | async) === 0">Previous
+    </button>
+    <button class="btn" type="button" (click)="wizardService.next()" [disabled]="form.invalid || ((wizardService.index$ | async)! +  1) >= wizardService.lengthSteps">Next</button>
   </div>
 </div>
